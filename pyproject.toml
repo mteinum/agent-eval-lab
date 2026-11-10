@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-eval-lab"
+version = "0.1.0"
+description = "Offline scenario runner for evaluating AI agent tool-use traces and safety rules"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Morten Teinum" }]
+dependencies = []
+
+[project.scripts]
+agent-eval = "agent_eval_lab.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent_eval_lab"]
+
+[dependency-groups]
+dev = ["pytest>=8.3"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

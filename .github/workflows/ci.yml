@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv run --locked pytest
+      - run: uv run --locked agent-eval examples/suite.json examples/traces.good.json
+      - name: Unsafe example must fail
+        run: |
+          if uv run --locked agent-eval examples/suite.json examples/traces.unsafe.json; then
+            echo "Unsafe trace unexpectedly passed" >&2
+            exit 1
+          fi
